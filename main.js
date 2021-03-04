@@ -113,7 +113,8 @@ function makeTableHead(paramNormalNameList, paramTypeList, paramNameList, paramS
                 export: true,
                 type: {isArray: false, type: TypeDef.Any},
                 name: '',
-                scope:[]
+                scope:[],
+                index: i,
             })
         }
         // 检查名称
@@ -384,9 +385,17 @@ async function main(argv) {
         files.forEach(excelFile=>{
             const fullPath = path.join(excelPath, excelFile);
             const r = xlsx.parse(fullPath);
+            log(`开始解析文件: ${fullPath}`);
             r.forEach((sheet)=>{
+                log(`    表：${sheet.name}`);
                 let checkResult = isConfig(sheet);
-                log(JSON.stringify(checkResult));
+                if (checkResult.result) {
+                    log(JSON.stringify(checkResult.info, null, 2));
+                    log(JSON.stringify(checkResult.head, null, 2));
+                } else {
+                    log(JSON.stringify(checkResult));
+                }
+
             });
 
         });
@@ -395,6 +404,7 @@ async function main(argv) {
     if (ret.isNotOK) {
         log('出错了:' + ret.getErrorInfo());
     }
+    process.exit(0);
 }
 
 /**
