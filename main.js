@@ -249,6 +249,37 @@ function makeTableHead(paramNormalNameList, paramTypeList, paramNameList, paramS
 }
 
 /**
+ * 生成数组
+ * @param {boolean} paramIsArray 是否是数组
+ * @param {string} paramType 数据类型
+ * @param {string} paramData 配置原始数据
+ * @return {{result: boolean, errMsg: string, value: any}}
+ */
+function GetValue(paramIsArray, paramType, paramData) {
+
+}
+
+/**
+ * 根据类型生成返回数组
+ * @param {string} paramType 数据类型
+ * @param {string} paramData 配置原始数据
+ * @return {{result: boolean, errMsg: string, value: any}}
+ */
+function GetValueByType(paramType, paramData) {
+    let ret = {
+        result: false,
+        errMsg: '',
+        data: null
+    };
+
+    switch (paramType) {
+        case TypeDef.Boolean:
+
+            break;
+    }
+}
+
+/**
  * 判断是不是配置的ExcelShell
  * @param {{name: string, data:[]}} paramExcelSheet
  * @return {{result:boolean, errMsg: string, info:{fileName: string, className: string, sheetName: string, data: []}}} 判断结果
@@ -329,7 +360,7 @@ function isConfig(paramExcelSheet) {
             break;
         }
         ret.result = true;
-        ret.data = paramExcelSheet.data.splice(6);
+        ret.info.data = paramExcelSheet.data.splice(6);
         ret.head = checkResult.head;
 
     } while (false);
@@ -375,6 +406,8 @@ async function main(argv) {
         const destPath = toAbsolutePath(argv[1]);
         log('excelPath:' + excelPath);
         log('destPath:' + destPath);
+
+        const sheetList = [];
 
         ret = await xlsxList(excelPath);
         if (ret.isNotOK) {
