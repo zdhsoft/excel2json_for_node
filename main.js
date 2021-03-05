@@ -272,13 +272,22 @@ function GetValueByType(paramType, paramData) {
         data: null
     };
 
-    switch (paramType) {
-        case TypeDef.Boolean:
 
+    switch (paramType) {
+        case TypeDef.Boolean: {
+            let t = 'false';
+            if (utils.isNotNull(paramData)) {
+                t = paramData.trim().toLowerCase();
+            }
+            ret.data = t === 'true' ? true : false;
+            }
             break;
+        case TypeDef.Integer: {
+
+        }
+
     }
 }
-
 /**
  * 判断是不是配置的ExcelShell
  * @param {{name: string, data:[]}} paramExcelSheet
