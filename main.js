@@ -46,11 +46,14 @@ function log(...argv) {
     console.log(...argv);
 }
 
+let f = Number.MAX_SAFE_INTEGER;
+
 /**
  * 检查名称的正则表达式
  * @type {RegExp}
  */
 const checkNameReg = /^[a-zA-Z_\$][a-zA-Z\d_\$]{0,200}$/;
+const checkIntegerReg = /^[+-]{0,1}\d{1,17}$/;
 
 const OutFlag = {
     Server: 's',
@@ -271,19 +274,17 @@ function GetValueByType(paramType, paramData) {
         errMsg: '',
         data: null
     };
-
-
     switch (paramType) {
         case TypeDef.Boolean: {
-            let t = 'false';
-            if (utils.isNotNull(paramData)) {
-                t = paramData.trim().toLowerCase();
-            }
-            ret.data = t === 'true' ? true : false;
+                let t = 'false';
+                if (utils.isNotNull(paramData)) {
+                    t = paramData.trim().toLowerCase();
+                }
+                ret.data = t === 'true' ? true : false;
             }
             break;
         case TypeDef.Integer: {
-
+            // checkIntegerReg.test(paramData)
         }
 
     }
