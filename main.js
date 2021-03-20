@@ -4,6 +4,49 @@ const glob = require('glob');
 const {utils, common_ret} = require('xmcommon');
 const xlsx = require('node-xlsx');
 
+
+/** 表信息 */
+class XSheetInfo {
+    /** 输出的文件名 */
+    fileName  = '';
+    /** 输出的类名 */
+    className = '';
+    /** 配置表的表格名称 */
+    sheetName = '';
+    /** 参数配置数据 */
+    data = []
+}
+/** 表头数据类型 */
+class XHeadType {
+    /** 是否是数组 */
+    isArray = false;
+    /** 类型定义 */
+    type = '';
+}
+
+/** 表头信息 */
+class XSheetHead {
+    /** 通用名称 */
+    normalName = '';
+    /** 是否导出 */
+    export     = false;
+    /** 类型 */
+    type      = new XHeadType();
+    /** 输出名称 */
+    name      = '';
+    /** 输出范围 表示是客户端，还是服务端输出 */
+    scope     = [];
+}
+/** 表头结果 */
+class XSheetHeadResult {
+    /** 表头结果 */
+    result = false;
+    /** 错误信息 */
+    errMsg = '';
+
+
+}
+
 /**
  * 设置错误信息
  * @param {{result: boolean, errMsg: string}} ret 返回的信息
@@ -60,6 +103,21 @@ const OutFlag = {
     Client: 'c'
 }
 const OutFlagList = Object.values(OutFlag);
+
+// 输出的跟目录
+const destRoot = '.';
+// 服务器端输出目录
+const svrRoot  = 'svr';
+// 前端输出目录
+const clientRoot = 'client';
+
+/**
+ * 确定指定文件的目录存在
+ * @param {string} paramFullFileName
+ */
+function ensureDirectory(paramFullFileName) {
+    path.parse()
+}
 
 /**
  * 生成表头
@@ -289,10 +347,13 @@ function GetValueByType(paramType, paramData) {
 
     }
 }
+
+
+
 /**
  * 判断是不是配置的ExcelShell
  * @param {{name: string, data:[]}} paramExcelSheet
- * @return {{result:boolean, errMsg: string, info:{fileName: string, className: string, sheetName: string, data: []}}} 判断结果
+ * @return {{result:boolean, errMsg: string, head:[], info:{fileName: string, className: string, sheetName: string, data: []}}} 判断结果
  */
 function isConfig(paramExcelSheet) {
     let ret = {
@@ -414,6 +475,7 @@ async function main(argv) {
         }
         const excelPath = toAbsolutePath(argv[0]);
         const destPath = toAbsolutePath(argv[1]);
+
         log('excelPath:' + excelPath);
         log('destPath:' + destPath);
 
@@ -435,6 +497,9 @@ async function main(argv) {
                 if (checkResult.result) {
                     log(JSON.stringify(checkResult.info, null, 2));
                     log(JSON.stringify(checkResult.head, null, 2));
+                    const sheetInfo = {info:checkResult.info, head: checkResult.head};
+                    sheetList.push();
+
                 } else {
                     log(JSON.stringify(checkResult));
                 }
